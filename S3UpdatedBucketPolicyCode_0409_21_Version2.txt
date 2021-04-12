@@ -1,0 +1,37 @@
+{
+    "Version": "2008-10-17",
+    "Id": "S3PolicyId1",
+    "Statement": [
+        {
+            "Sid": "IPAllow",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "s3:*",
+            "Resource": "arn:aws:s3:::webserverinstancename/*",
+            "Condition": {
+                "NotIpAddress": {
+                    "aws:SourceIp": "192.168.143.188/32"
+                },
+                "IpAddress": {
+                    "aws:SourceIp": "192.168.143.0/24"
+                }
+            }
+        },
+        {
+            "Sid": "IPDeny",
+            "Effect": "Deny",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "s3:*",
+            "Resource": "arn:aws:s3:::webserverinstancename/*",
+            "Condition": {
+                "IpAddress": {
+                    "aws:SourceIp": "54.86.99.0/24"
+                }
+            }
+        }
+    ]
+}
