@@ -1,0 +1,1 @@
+ packer build     -var 'ami_name=ami-0bc06212a56393ee1'     example.pkr.hcl
