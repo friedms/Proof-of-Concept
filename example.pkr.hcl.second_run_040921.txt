@@ -1,0 +1,61 @@
+[centos@ip-172-31-4-106 ~]$ cat example.pkr.hcl.backupfornow
+
+# If you don't set a default, then you will need to provide the variable
+# at run time using the command line, or set it in the environment. For more
+# information about the various options for setting variables, see the template
+# [reference documentation](https://www.packer.io/docs/templates)
+variable "ami_name" {
+  type    = string
+  default = "my-custom-ami"
+}
+
+locals { timestamp = regex_replace(timestamp(), "[- TZ:]", "") }
+
+# source blocks configure your builder plugins; your source is then used inside
+# build blocks to create resources. A build block runs provisioners and
+# post-processors on an instance created by the source.
+source "amazon-ebs" "example" {
+  access_key    = "AKIA6JEDQAFOXUHW3CH5"
+  ami_name      = "PackerbuildwithEBS"
+  instance_type = "t3.small"
+  region        = "us-east-1"
+  secret_key    = "SdI5+Uf2tTjoHOs45Zuzr1soh2/AmZG7ynd2K2bW"
+  source_ami_filter {
+    filters = {
+      product-code        = "aw0evgkw8e5c1q413zgy5pjce"
+      state               = "available"
+
+    }
+    most_recent = true
+    owners      = ["aws-marketplace"]
+  }
+  ssh_username = "centos"
+}
+
+# a build block invokes sources and runs provisioning steps on them.
+build {
+  sources = ["source.amazon-ebs.example"]
+
+  provisioner "shell" {
+    inline = [
+      "sleep 30",
+      "sudo yum install gcc",
+      "sudo yum install wget",
+      "wget http://download.redis.io/redis-stable.tar.gz",
+      "tar xvzf redis-stable.tar.gz",
+#      "cd redis-stable",
+      "make",
+      "src/redis-cli -h mycachecluster.eaogs8.0001.usw2.cache.amazonaws.com -p 6379",
+    ]
+
+
+#destination = "/home/centos"
+#   source      = "./welcome.txt"
+#  }
+#  provisioner "shell" {
+#    inline = ["ls -al /home/centos", ]
+#  }
+#  provisioner "shell" {
+#    script = "./example.sh"
+  }
+}
