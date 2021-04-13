@@ -1,0 +1,1 @@
+*/5 * * * * /bin/bash /root/sync-s3.sh >> /tmp/sync-s3.log
