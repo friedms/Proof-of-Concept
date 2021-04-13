@@ -1,0 +1,11 @@
+ file terraform.tfstate
+terraform.tfstate: ASCII text
+[centos@ip-172-31-4-106 learn-terraform-aws-instance]$ cat terraform.tfstate
+{
+  "version": 4,
+  "terraform_version": "0.14.8",
+  "serial": 1,
+  "lineage": "f7ee72d8-6c7a-2762-ed42-115b78c7520f",
+  "outputs": {},
+  "resources": []
+}
