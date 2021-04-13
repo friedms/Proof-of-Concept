@@ -1,0 +1,6 @@
+
+ bucket         = terraformwebserverinstancename"
+ force_destroy  = false
+ date = "2022-01-12"
+
+~
